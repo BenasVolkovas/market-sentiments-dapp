@@ -7,7 +7,7 @@ const Title = (props: Props) => {
         <div style={{ padding: "20px" }}>
             <Row justifyItems="center">
                 <Typography variant="h2" color="white">
-                    Where do you think thses tokens are going? To the moon or
+                    Where do you think these tokens are going? To the moon or
                     not?
                 </Typography>
             </Row>
