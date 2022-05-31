@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Row } from "web3uikit";
+import { useSnapshot } from "valtio";
 import Votes from "./Votes";
+import { store } from "../State/Store";
 import "../styles/App.css";
 
 type Props = {
@@ -11,6 +13,8 @@ type Props = {
 
 const Coin = ({ percentage, setPercentage, token }: Props) => {
     const [color, setColor] = useState<string>("yellow");
+    const snap = useSnapshot(store);
+
     useEffect(() => {
         if (percentage >= 60) {
             setColor("#228B22");
@@ -23,13 +27,17 @@ const Coin = ({ percentage, setPercentage, token }: Props) => {
 
     return (
         <div>
-            <Typography variant="h3" color="white" className="token">
-                {token}
-            </Typography>
+            <Row alignItems="center" justifyItems="center">
+                <div style={{ marginBottom: "20px" }}>
+                    <Typography variant="h3" color="white" weight="bold">
+                        <div className="token">{token}</div>
+                    </Typography>
+                </div>
+            </Row>
             <div
                 className="circle"
                 style={{
-                    boxShadow: `0 0 s10px ${color}`,
+                    boxShadow: `0 0 10px ${color}`,
                 }}
             >
                 <div

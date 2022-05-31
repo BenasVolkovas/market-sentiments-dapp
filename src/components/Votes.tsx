@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "web3uikit";
+import { Button, Row } from "web3uikit";
 import "../styles/App.css";
 
 type Props = {
@@ -8,23 +8,25 @@ type Props = {
 
 const Votes = ({ setPercentage }: Props) => {
     return (
-        <div className="votes">
-            <Button
-                onClick={() => setPercentage((perc) => perc + 1)}
-                text="Up"
-                theme="status"
-                type="button"
-                icon="chevronUp"
-                color="blue"
-            />
-            <Button
-                onClick={() => setPercentage((perc) => perc - 1)}
-                text="Down"
-                theme="status"
-                type="button"
-                icon="chevronDown"
-                color="blue"
-            />
+        <div style={{ marginTop: "20px" }}>
+            <Row alignItems="center" justifyItems="center">
+                <Button
+                    onClick={() => setPercentage((perc) => perc + 1)}
+                    text="Up"
+                    theme="status"
+                    type="button"
+                    icon="chevronUp"
+                    color="blue"
+                />
+                <Button
+                    onClick={() => setPercentage((perc) => perc - 1)}
+                    text="Down"
+                    theme="status"
+                    type="button"
+                    icon="chevronDown"
+                    color="blue"
+                />
+            </Row>
         </div>
     );
 };
