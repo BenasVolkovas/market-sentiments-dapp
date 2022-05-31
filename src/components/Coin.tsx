@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Row } from "web3uikit";
-import { useSnapshot } from "valtio";
 import Votes from "./Votes";
-import { store } from "../State/Store";
+import MoreInfo from "./MoreInfo";
 import "../styles/App.css";
 
 type Props = {
@@ -13,7 +12,6 @@ type Props = {
 
 const Coin = ({ percentage, setPercentage, token }: Props) => {
     const [color, setColor] = useState<string>("yellow");
-    const snap = useSnapshot(store);
 
     useEffect(() => {
         if (percentage >= 60) {
@@ -53,7 +51,9 @@ const Coin = ({ percentage, setPercentage, token }: Props) => {
                     <span style={{ fontSize: "30px" }}>%</span>
                 </div>
             </div>
+
             <Votes setPercentage={setPercentage} />
+            <MoreInfo token={token} />
         </div>
     );
 };

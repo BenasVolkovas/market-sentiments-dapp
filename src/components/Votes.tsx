@@ -12,7 +12,7 @@ const Votes = ({ setPercentage }: Props) => {
             <Row alignItems="center" justifyItems="center">
                 <Button
                     onClick={() => setPercentage((perc) => perc + 1)}
-                    text="Up"
+                    text="UP"
                     theme="status"
                     type="button"
                     icon="chevronUp"
@@ -20,7 +20,7 @@ const Votes = ({ setPercentage }: Props) => {
                 />
                 <Button
                     onClick={() => setPercentage((perc) => perc - 1)}
-                    text="Down"
+                    text="DOWN"
                     theme="status"
                     type="button"
                     icon="chevronDown"

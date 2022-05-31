@@ -9,12 +9,6 @@
     row-gap: 50px;
 }
 
-/* .sc-kTvvXX {
-    background-color: #202c37 !important;
-    width: 40vw !important;
-    height: 450px;
-} */
-
 .circle {
     border: 5px solid black;
     width: 250px;
@@ -29,7 +23,7 @@
     height: 200%;
     right: 50%;
     transform-origin: 50% 50%;
-    border-radius: 50% 80%;
+    border-radius: 70% 60% 50% 40%;
     animation: spin 3s infinite linear;
 }
 

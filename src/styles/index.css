@@ -5,17 +5,8 @@ body {
         "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-image: linear-gradient(
-        to left top,
-        #1e232a,
-        #1d202c,
-        #1f1c2c,
-        #24172a,
-        #2a1025
-    );
-    width: 100vw;
-    height: 100vh;
     color: #ffffff;
+    background-color: #231923;
 }
 
 code {
