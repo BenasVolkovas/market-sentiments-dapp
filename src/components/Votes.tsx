@@ -2,16 +2,14 @@ import React from "react";
 import { Button, Row } from "web3uikit";
 import "../styles/App.css";
 
-type Props = {
-    setPercentage: React.Dispatch<React.SetStateAction<number>>;
-};
+type Props = {};
 
-const Votes = ({ setPercentage }: Props) => {
+const Votes = ({}: Props) => {
     return (
         <div style={{ marginTop: "20px" }}>
             <Row alignItems="center" justifyItems="center">
                 <Button
-                    onClick={() => setPercentage((perc) => perc + 1)}
+                    // onClick={() => setPercentage((perc) => perc + 1)}
                     text="UP"
                     theme="status"
                     type="button"
@@ -19,7 +17,7 @@ const Votes = ({ setPercentage }: Props) => {
                     color="blue"
                 />
                 <Button
-                    onClick={() => setPercentage((perc) => perc - 1)}
+                    // onClick={() => setPercentage((perc) => perc - 1)}
                     text="DOWN"
                     theme="status"
                     type="button"

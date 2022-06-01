@@ -4,17 +4,11 @@ export type Token = {
     ticker: string;
     address: string;
     percentage: number;
-    price: string | undefined;
+    price: string;
 };
 
 export const store = proxy<{
-    modalToken: string;
-    modalVisible: boolean;
-    modalPrice: number;
     tokens: Token[];
 }>({
-    modalToken: "",
-    modalVisible: false,
-    modalPrice: 0,
     tokens: [],
 });

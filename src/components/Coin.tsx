@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Typography, Row } from "web3uikit";
 import Votes from "./Votes";
-import MoreInfo from "./MoreInfo";
 import "../styles/App.css";
 
 type Props = {
-    percentage: number;
-    setPercentage: React.Dispatch<React.SetStateAction<number>>;
     token: string;
+    percentage: number;
+    price: string;
 };
 
-const Coin = ({ percentage, setPercentage, token }: Props) => {
+const Coin = ({ token, percentage, price }: Props) => {
     const [color, setColor] = useState<string>("yellow");
 
     useEffect(() => {
@@ -25,13 +24,13 @@ const Coin = ({ percentage, setPercentage, token }: Props) => {
 
     return (
         <div>
-            <Row alignItems="center" justifyItems="center">
-                <div style={{ marginBottom: "20px" }}>
+            <div style={{ marginBottom: "20px" }}>
+                <Row alignItems="center" justifyItems="center">
                     <Typography variant="h3" color="white" weight="bold">
                         <div className="token">{token}</div>
                     </Typography>
-                </div>
-            </Row>
+                </Row>
+            </div>
             <div
                 className="circle"
                 style={{
@@ -52,8 +51,14 @@ const Coin = ({ percentage, setPercentage, token }: Props) => {
                 </div>
             </div>
 
-            <Votes setPercentage={setPercentage} />
-            <MoreInfo token={token} />
+            <Votes />
+            <div style={{ marginTop: "10px" }}>
+                <Row alignItems="center" justifyItems="center">
+                    <Typography variant="h3" color="white">
+                        {price} $
+                    </Typography>
+                </Row>
+            </div>
         </div>
     );
 };

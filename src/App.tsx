@@ -1,18 +1,15 @@
 import { useState, useEffect } from "react";
-import { Modal } from "web3uikit";
 import { useSnapshot } from "valtio";
 import { useMoralisWeb3Api, useMoralis, useMoralisQuery } from "react-moralis";
 import Header from "./components/Header";
 import Title from "./components/Title";
 import Coin from "./components/Coin";
-import { store, Token } from "./State/Store";
+import { store, Token } from "./state/Store";
 import "./styles/App.css";
 
 const App = () => {
     const Web3Api = useMoralisWeb3Api();
-    const { Moralis, isInitialized } = useMoralis();
-    const [btc, setBtc] = useState<number>(50);
-    const [eth, setEth] = useState<number>(30);
+    const { isInitialized } = useMoralis();
     const snap = useSnapshot(store);
 
     const {
@@ -43,12 +40,6 @@ const App = () => {
         }
     }, [tickersIsLoading, isInitialized]);
 
-    // useMoralisSubscription("Tickers", (q) => q, [], {
-    //     onUpdate: (data) => alert(data.attributes.ticker),
-    // });
-
-    // useEffect(() => {fetchTokenPrice()}, [snap.modalToken]);
-
     // useEffect(() => {
     //     if (isInitialized) {
     //         // getRatio
@@ -65,10 +56,6 @@ const App = () => {
         };
         const price = await Web3Api.token.getTokenPrice(options);
         return price.usdPrice.toFixed(2);
-    };
-
-    const removeModal = () => {
-        store.modalVisible = false;
     };
 
     // const getPercentageRatio = async (
@@ -94,18 +81,17 @@ const App = () => {
             <Header />
             <Title />
             <div className="list">
-                <Coin percentage={btc} setPercentage={setBtc} token={"BTC"} />
-                <Coin percentage={eth} setPercentage={setEth} token={"ETH"} />
+                {snap.tokens.map((token, index) => {
+                    return (
+                        <Coin
+                            key={index}
+                            token={token.ticker}
+                            percentage={token.percentage}
+                            price={token.price}
+                        />
+                    );
+                })}
             </div>
-
-            <Modal
-                title={snap.modalToken}
-                hasFooter={false}
-                isVisible={snap.modalVisible}
-                onCloseButtonPressed={() => removeModal()}
-                children={<div></div>}
-                isCentered={true}
-            ></Modal>
         </>
     );
 };
