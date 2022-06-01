@@ -4,7 +4,7 @@ import "../styles/App.css";
 
 type Props = {};
 
-const Votes = ({}: Props) => {
+const Votes = (props: Props) => {
     return (
         <div style={{ marginTop: "20px" }}>
             <Row alignItems="center" justifyItems="center">

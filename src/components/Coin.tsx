@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Typography, Row } from "web3uikit";
 import Votes from "./Votes";
+import Price from "./Price";
 import "../styles/App.css";
 
 type Props = {
@@ -52,13 +53,7 @@ const Coin = ({ token, percentage, price }: Props) => {
             </div>
 
             <Votes />
-            <div style={{ marginTop: "10px" }}>
-                <Row alignItems="center" justifyItems="center">
-                    <Typography variant="h3" color="white">
-                        {price} $
-                    </Typography>
-                </Row>
-            </div>
+            <Price price={price} />
         </div>
     );
 };

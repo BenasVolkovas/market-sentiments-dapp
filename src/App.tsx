@@ -9,7 +9,7 @@ import "./styles/App.css";
 
 const App = () => {
     const Web3Api = useMoralisWeb3Api();
-    const { isInitialized } = useMoralis();
+    const { Moralis, isInitialized } = useMoralis();
     const snap = useSnapshot(store);
 
     const {
@@ -25,10 +25,14 @@ const App = () => {
                     token.attributes.cryptoAddress
                 );
 
+                const percentage = await getPercentageRatio(
+                    token.attributes.ticker
+                );
+
                 const newToken: Token = {
                     ticker: token.attributes.ticker,
                     address: token.attributes.address,
-                    percentage: 50,
+                    percentage: percentage,
                     price: price,
                 };
                 store.tokens.push(newToken);
@@ -39,12 +43,6 @@ const App = () => {
             createTokens();
         }
     }, [tickersIsLoading, isInitialized]);
-
-    // useEffect(() => {
-    //     if (isInitialized) {
-    //         // getRatio
-    //     }
-    // }, [isInitialized]);
 
     const fetchTokenPrice = async (cryptoAddress: string): Promise<string> => {
         const options: {
@@ -58,23 +56,21 @@ const App = () => {
         return price.usdPrice.toFixed(2);
     };
 
-    // const getPercentageRatio = async (
-    //     ticker: string,
-    //     setPercentage: (perc: number) => void
-    // ) => {
-    //     const votes = Moralis.Object.extend("Votes");
-    //     const votesQuery = new Moralis.Query(votes);
-    //     votesQuery.equalTo("_ticker", ticker);
-    //     votesQuery.descending("createdAt");
-    //     const results = await votesQuery.first();
-    //     let ratio = 50;
-    //     if (results !== undefined) {
-    //         let up = parseInt(results.attributes._upCount);
-    //         let down = parseInt(results.attributes._downCount);
-    //         ratio = Math.round((up / (up + down)) * 100);
-    //     }
-    //     setPercentage(ratio);
-    // };
+    const getPercentageRatio = async (ticker: string): Promise<number> => {
+        const votes = Moralis.Object.extend("Votes");
+        const votesQuery = new Moralis.Query(votes);
+        votesQuery.equalTo("ticker", ticker);
+        votesQuery.descending("createdAt");
+        const results = await votesQuery.first();
+        if (results === undefined) {
+            return 0;
+        } else {
+            const up = parseInt(results.attributes.upCount);
+            const down = parseInt(results.attributes.downCount);
+            const ratio = Math.round((up / (up + down)) * 100);
+            return ratio;
+        }
+    };
 
     return (
         <>
