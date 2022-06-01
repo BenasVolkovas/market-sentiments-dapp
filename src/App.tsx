@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSnapshot } from "valtio";
-import { useMoralisWeb3Api, useMoralis, useMoralisQuery } from "react-moralis";
+import {
+    useMoralisWeb3Api,
+    useMoralis,
+    useMoralisQuery,
+    useMoralisSubscription,
+} from "react-moralis";
 import Header from "./components/Header";
 import Title from "./components/Title";
 import Coin from "./components/Coin";
@@ -17,6 +22,17 @@ const App = () => {
         error: tickersError,
         isLoading: tickersIsLoading,
     } = useMoralisQuery("Tickers", (query) => query.descending("createdAt"));
+
+    useMoralisSubscription("Votes", (q) => q, [], {
+        onUpdate: async (data) => {
+            const percentage = await getPercentageRatio(data.attributes.ticker);
+            store.tokens[
+                snap.tokens.findIndex(
+                    (x) => x.ticker === data.attributes.ticker
+                )
+            ].percentage = percentage;
+        },
+    });
 
     useEffect(() => {
         const createTokens = async () => {
