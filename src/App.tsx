@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSnapshot } from "valtio";
 import {
     useMoralisWeb3Api,
@@ -9,7 +9,8 @@ import {
 import Header from "./components/Header";
 import Title from "./components/Title";
 import Coin from "./components/Coin";
-import { store, Token } from "./state/Store";
+import { store } from "./helpers/Store";
+import type { Token } from "./helpers/Types";
 import "./styles/App.css";
 
 const App = () => {
