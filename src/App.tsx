@@ -79,7 +79,7 @@ const App = () => {
         votesQuery.descending("createdAt");
         const results = await votesQuery.first();
         if (results === undefined) {
-            return 0;
+            return 50;
         } else {
             const up = parseInt(results.attributes.upCount);
             const down = parseInt(results.attributes.downCount);

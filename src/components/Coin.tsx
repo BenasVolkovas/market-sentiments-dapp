@@ -52,7 +52,7 @@ const Coin = ({ token, percentage, price }: Props) => {
                 </div>
             </div>
 
-            <Votes />
+            <Votes token={token} />
             <Price price={price} />
         </div>
     );
