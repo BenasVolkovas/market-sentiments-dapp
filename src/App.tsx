@@ -28,7 +28,7 @@ const App = () => {
             const percentage = await getPercentageRatio(data.attributes.ticker);
             store.tokens[
                 snap.tokens.findIndex(
-                    (x) => x.ticker === data.attributes.ticker
+                    (x: Token) => x.ticker === data.attributes.ticker
                 )
             ].percentage = percentage;
         },
@@ -93,7 +93,7 @@ const App = () => {
             <Header />
             <Title />
             <div className="list">
-                {snap.tokens.map((token, index) => {
+                {snap.tokens.map((token: Token, index: number) => {
                     return (
                         <Coin
                             key={index}
