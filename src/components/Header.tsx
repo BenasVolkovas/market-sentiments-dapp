@@ -1,9 +1,7 @@
 import { ConnectButton, Row, Typography, Icon } from "web3uikit";
 import "../styles/index.css";
 
-type Props = {};
-
-const Header = (props: Props) => {
+const Header = () => {
     return (
         <div style={{ padding: "20px" }}>
             <Row alignItems="center" justifyItems="space-between">

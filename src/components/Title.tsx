@@ -1,8 +1,6 @@
 import { Typography, Row } from "web3uikit";
 
-type Props = {};
-
-const Title = (props: Props) => {
+const Title = () => {
     return (
         <div style={{ padding: "40px 20px 100px 20px" }}>
             <Row justifyItems="center">
