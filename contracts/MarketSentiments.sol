@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.7;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -15,16 +15,16 @@ contract MarketSentiments is Ownable {
     string[] public tickersArray;
     mapping(string => Ticker) public tickers;
 
-    event tickerAdded(string ticker, address cryptoAddress);
+    event TickerAdded(string ticker, address cryptoAddress);
 
-    event tickerUpdated(
+    event TickerUpdated(
         uint256 upCount,
         uint256 downCount,
         address voter,
         string ticker
     );
 
-    function addTicker(string calldata _ticker, address _cryptoAddress)
+    function addTicker(string memory _ticker, address _cryptoAddress)
         public
         onlyOwner
     {
@@ -33,11 +33,10 @@ contract MarketSentiments is Ownable {
         newTicker.exists = true;
         newTicker.cryptoAddress = _cryptoAddress;
         tickersArray.push(_ticker);
-
-        emit tickerAdded(_ticker, _cryptoAddress);
+        emit TickerAdded(_ticker, _cryptoAddress);
     }
 
-    function vote(string calldata _ticker, bool _voteIsUp) public {
+    function vote(string memory _ticker, bool _voteIsUp) public {
         require(tickers[_ticker].exists, "This token does not exist.");
         require(
             tickers[_ticker].voters[msg.sender] == false,
@@ -52,11 +51,10 @@ contract MarketSentiments is Ownable {
         } else {
             t.downCount++;
         }
-
-        emit tickerUpdated(t.upCount, t.downCount, msg.sender, _ticker);
+        emit TickerUpdated(t.upCount, t.downCount, msg.sender, _ticker);
     }
 
-    function getVotes(string calldata _ticker)
+    function getVotes(string memory _ticker)
         public
         view
         returns (uint256 up, uint256 down)
