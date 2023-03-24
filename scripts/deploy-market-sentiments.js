@@ -10,8 +10,8 @@ async function main() {
     console.log("MarketSentiments deployed to:", marketSentiments.address);
     if (hre.network.config.chainId === 4 && process.env.ETHERSCAN_API_KEY) {
         console.log("Waiting for block confirmations...");
-        await simpleStorage.deployTransaction.wait(6);
-        await verify(simpleStorage.address, []);
+        await marketSentiments.deployTransaction.wait(6);
+        await verify(marketSentiments.address, []);
     }
 }
 
