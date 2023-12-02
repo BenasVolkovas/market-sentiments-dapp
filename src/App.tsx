@@ -1,93 +1,93 @@
-import { useEffect } from "react";
-import { useSnapshot } from "valtio";
-import {
-    useMoralisWeb3Api,
-    useMoralis,
-    useMoralisQuery,
-    useMoralisSubscription,
-} from "react-moralis";
+import {useEffect} from "react";
+import {useSnapshot} from "valtio";
+// import {
+//     useMoralisWeb3Api,
+//     useMoralis,
+//     useMoralisQuery,
+//     useMoralisSubscription,
+// } from "react-moralis";
 import Header from "./components/Header";
 import Title from "./components/Title";
 import Coin from "./components/Coin";
-import { store } from "./helpers/Store";
-import type { Token } from "./helpers/Types";
+import {store} from "./helpers/Store";
+import type {Token} from "./helpers/Types";
 import "./styles/App.css";
 
+interface Token {
+    cryptoAddress: string;
+    ticker: string;
+    address: string;
+    percentage: number;
+    price: string;
+}
+
 const App = () => {
-    const Web3Api = useMoralisWeb3Api();
-    const { Moralis, isInitialized } = useMoralis();
+    // const Web3Api = useMoralisWeb3Api();
+    // const { Moralis, isInitialized } = useMoralis();
     const snap = useSnapshot(store);
 
-    const {
-        data: tickersData,
-        error: tickersError,
-        isLoading: tickersIsLoading,
-    } = useMoralisQuery("Tickers", (query) => query.descending("createdAt"));
-
-    useMoralisSubscription("Votes", (q) => q, [], {
-        onUpdate: async (data) => {
-            const percentage = await getPercentageRatio(data.attributes.ticker);
-            store.tokens[
-                snap.tokens.findIndex(
-                    (x: Token) => x.ticker === data.attributes.ticker
-                )
-            ].percentage = percentage;
+    const tickersData: Token[] = [
+        // Create 3 random tokens
+        {
+            cryptoAddress: "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
+            ticker: "MKR",
+            address: "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
+            percentage: 87,
+            price: "1455.86",
         },
-    });
+        {
+            cryptoAddress: "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+            ticker: "AAVE",
+            address: "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+            percentage: 38,
+            price: "68.83",
+        },
+        {
+            cryptoAddress: "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+            ticker: "UNI",
+            address: "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+            percentage: 51,
+            price: "4.52",
+        },
+    ];
+    const tickersError = null;
+    const tickersIsLoading = false;
+
+    // const {
+    //     data: tickersData,
+    //     error: tickersError,
+    //     isLoading: tickersIsLoading,
+    // } = useMoralisQuery("Tickers", (query) => query.descending("createdAt"));
+
+    // useMoralisSubscription("Votes", (q) => q, [], {
+    //     onUpdate: async (data) => {
+    //         const percentage = await getPercentageRatio(data.attributes.ticker);
+    //         store.tokens[
+    //             snap.tokens.findIndex(
+    //                 (x: Token) => x.ticker === data.attributes.ticker
+    //             )
+    //         ].percentage = percentage;
+    //     },
+    // });
 
     useEffect(() => {
         const createTokens = async () => {
             for (const token of tickersData) {
-                const price = await fetchTokenPrice(
-                    token.attributes.cryptoAddress
-                );
-
-                const percentage = await getPercentageRatio(
-                    token.attributes.ticker
-                );
-
                 const newToken: Token = {
-                    ticker: token.attributes.ticker,
-                    address: token.attributes.address,
-                    percentage: percentage,
-                    price: price,
+                    cryptoAddress: token.cryptoAddress,
+                    ticker: token.ticker,
+                    address: token.address,
+                    percentage: token.percentage,
+                    price: token.price,
                 };
                 store.tokens.push(newToken);
             }
         };
 
-        if (!tickersIsLoading && isInitialized && tickersError === null) {
+        if (!tickersIsLoading && tickersError === null) {
             createTokens();
         }
-    }, [tickersIsLoading, isInitialized]);
-
-    const fetchTokenPrice = async (cryptoAddress: string): Promise<string> => {
-        const options: {
-            address: string;
-            chain: "eth";
-        } = {
-            address: cryptoAddress,
-            chain: "eth",
-        };
-        const price = await Web3Api.token.getTokenPrice(options);
-        return price.usdPrice.toFixed(2);
-    };
-
-    const getPercentageRatio = async (ticker: string): Promise<number> => {
-        const votes = Moralis.Object.extend("Votes");
-        const votesQuery = new Moralis.Query(votes);
-        votesQuery.equalTo("ticker", ticker);
-        votesQuery.descending("createdAt");
-        const results = await votesQuery.first();
-        if (results === undefined) {
-            return 50;
-        } else {
-            const up = parseInt(results.attributes.upCount);
-            const down = parseInt(results.attributes.downCount);
-            const ratio = Math.round((up / (up + down)) * 100);
-            return ratio;
-        }
-    };
+    }, [tickersIsLoading]);
 
     return (
         <>
